@@ -7,15 +7,33 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        IQKeyboardManager.shared.enable = true
+        
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        var initialViewController = self.window?.rootViewController
+        
+        let status = UserDefaults.standard.bool(forKey: "userLogin") 
+        
+        if status {
+           initialViewController = storyboard.instantiateViewController(withIdentifier: "WelcomeViewController")
+        } else {
+          initialViewController = storyboard.instantiateViewController(withIdentifier: "ViewController")
+        }
+        self.window?.rootViewController = initialViewController
+        self.window?.makeKeyAndVisible()
+        
         return true
     }
 
